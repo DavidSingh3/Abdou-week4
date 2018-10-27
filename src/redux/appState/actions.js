@@ -1,17 +1,11 @@
 
-const nextTodoId = 0
+let nextTodoId = 0
 export const addTodo = text => ({
   type: 'ADD_TODO',
   id: nextTodoId++,
   text, 
   
 })
-
-
-// export const addTodo = item => ({
-//     type: 'ADD_TODO',
-//     item
-// })
 
 export const deleteItem = index => ({
     type: 'DELETE_TODO',

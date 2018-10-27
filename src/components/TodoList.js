@@ -1,47 +1,29 @@
 //TodoList is a list showing visible todos.
-import React, { Component } from "react";
-//import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Todo from './Todo'
-import todos from "../reducers";
-//import {todos} from '../reducers'
-//import list from "./todolist.json";
+import { connect } from 'react-redux'
+import { toggleTodo } from '../redux/appState/actions'
 
-// class Todolist extends Component {
-//   render(){
-//     const myFilteredTodos = this.props.Todolist.filter((todo, onTodoClick) => {
-//       const regex = new RegExp(this.props.searchDescription, "gi");
-//       return regex.test(todo.description);
-// });
+class TodoList extends Component {
+  render () {
+    const {todoList} = this.props
+    return (
+      <ul>
+        {
+          todoList.map((todo, index) => (
+            <Todo
+              key={index}
+              {...todo}
+            />
+          ))
+        }
+      </ul>
+    )
+  }
+}
 
-// return(
-//   <ul>
-//     {myFilteredTodos.map( (todo, index, onTodoClick) => (
-//       <Todo key={index} 
-//       {...todo} 
-//       onClick={() => onTodoClick(index)} />
-//     ))}
-//   </ul>
-// )
-//   }
-// }
-const Todolist = ({ todo, onTodoClick }) => (
-  <ul>
-    {/*{todos.map((todo, index) => (*/}
-      {/*<Todo key={index}*/}
-      {/*{...todo} */}
-      {/*onClick={() => onTodoClick(index)} />*/}
-    {/*))}*/}
-  </ul>
-)
-
-
-  
-
-
-
-
-Todolist.propTypes = {
+TodoList.propTypes = {
   List: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -52,4 +34,12 @@ Todolist.propTypes = {
   onTodoClick: PropTypes.func.isRequired
 }
 
-export default Todolist
+const mapStateToProps = ({appState}) => ({
+  todoList: appState.todoList,
+})
+
+const mapDispatchToProps = dispatch => ({
+  onTodoClick: index => dispatch(toggleTodo(index))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList)

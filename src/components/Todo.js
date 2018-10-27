@@ -2,15 +2,17 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { toggleTodo } from '../redux/appState/actions'
 
-const Todo = ({ onClick, completed, text }) => (
+const Todo = ({ onTodoClick, id, done, deadline, description }) => (
   <li
-    onClick={onClick}
+    onClick={() => onTodoClick(id)}
     style={{
-      textDecoration: completed ? 'line-through' : 'none'
+      textDecoration: done ? 'line-through' : 'none'
     }}
   >
-    {text}
+    {description} {deadline}
   </li>
 )
 
@@ -20,4 +22,8 @@ Todo.propTypes = {
   text: PropTypes.string.isRequired
 }
 
-export default Todo
+const mapDispatchToProps = dispatch => ({
+  onTodoClick: id => dispatch(toggleTodo(id))
+})
+
+export default connect(null, mapDispatchToProps)(Todo)
